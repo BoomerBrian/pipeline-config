@@ -10,5 +10,5 @@ chmod +x fly_linux_amd64
 
 for file in pipeline-config/*-config.yml; do
     filename="${filename%.*}"
-    ./fly_linux_amd64 -t concourse set-pipeline -p filename -c file
+    ./fly_linux_amd64 -t concourse set-pipeline -p filename -c $(basename "$file")
 done
