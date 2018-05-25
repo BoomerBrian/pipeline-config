@@ -1,4 +1,31 @@
----
+groups: []
+resources:
+- name: slack-alert
+  type: slack-notification
+  source:
+    url: https://hooks.slack.com/services/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
+- name: sonic-eats-ms
+  type: git
+  source:
+    branch: Build-Passed
+    check_every: 30s
+    trigger: true
+    uri: https://github.com/BoomerBrian/sonic-eats-ms.git
+- name: deploy-ms
+  type: cf
+  source:
+    api: https://api.sys.pcf-bootcamp.techolution.com
+    organization: sonic-bootcamp
+    password: Techo#2018
+    skip_cert_check: false
+    space: bootcamp9
+    username: bootcamp9
+resource_types:
+- name: slack-notification
+  type: docker-image
+  source:
+    repository: cfcommunity/slack-notification-resource
+    tag: latest
 jobs:
 - name: build/run-tests
   public: true
@@ -8,23 +35,17 @@ jobs:
     trigger: true
   - task: build
     file: sonic-eats-ms/build.yml
+    on_failure:
+      put: slack-alert
+      params:
+        channel: '#hackathon-winners'
+        text: Failed Deploy
+    on_success:
+      put: slack-alert
+      params:
+        channel: '#hackathon-winners'
+        text: Successful Deploy
   - put: deploy-ms
     params:
       manifest: sonic-eats-ms/manifest.yml
       path: build-output/demo-service-0.0.1-SNAPSHOT.jar
-
-resources:
-- name: sonic-eats-ms
-  type: git
-  source:
-    uri: https://github.com/BoomerBrian/sonic-eats-ms.git
-    branch: Build-Passed
-- name: deploy-ms
-  type: cf
-  source:
-    api: https://api.sys.pcf-bootcamp.techolution.com
-    username: bootcamp9
-    password: Techo#2018
-    organization: sonic-bootcamp
-    space: bootcamp9
-    skip_cert_check: false
