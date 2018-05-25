@@ -4,7 +4,7 @@ platform: linux
 image_resource:
   type: docker-image
   source:
-    repository: opetroykinsella/concourse-fly-resource
+    repository: troykinsella/concourse-fly-resource
     tag: 'latest'
 
 inputs:
