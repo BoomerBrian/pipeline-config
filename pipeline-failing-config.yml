@@ -1,0 +1,30 @@
+---
+jobs:
+- name: build/run-tests
+  public: true
+  serial: true
+  plan:
+  - get: sonic-eats-ms
+    trigger: true
+  - task: build
+    file: sonic-eats-ms/build.yml
+  - put: deploy-ms
+    params:
+      manifest: sonic-eats-ms/manifest.yml
+      path: build-output/demo-service-0.0.1-SNAPSHOT.jar
+
+resources:
+- name: sonic-eats-ms
+  type: git
+  source:
+    uri: https://github.com/BoomerBrian/sonic-eats-ms.git
+    branch: Build-Failed
+- name: deploy-ms
+  type: cf
+  source:
+    api: https://api.sys.pcf-bootcamp.techolution.com
+    username: bootcamp9
+    password: Techo#2018
+    organization: sonic-bootcamp
+    space: bootcamp9
+    skip_cert_check: false
