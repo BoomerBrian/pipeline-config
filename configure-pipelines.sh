@@ -10,5 +10,6 @@ chmod +x fly_linux_amd64
 
 for file in pipeline-config/*-config.yml; do
     filename="$(basename ${file%.*})"
-    ./fly_linux_amd64 -t concourse set-pipeline -n -p $filename -c pipeline-config/$(basename "$file")
+    cutname = $filename | cut -f2 -d'-'
+    ./fly_linux_amd64 -t concourse set-pipeline -n -p sonic-eats-ms-$cutname -c pipeline-config/$(basename "$file")
 done
