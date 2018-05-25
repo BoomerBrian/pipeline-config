@@ -12,4 +12,4 @@ inputs:
    
 run:
   path: sh
-  args: ["./configure-pipelines.sh"]
+  args: ["./pipeline-config/configure-pipelines.sh"]
