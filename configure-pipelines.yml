@@ -7,13 +7,6 @@ image_resource:
     repository: opetroykinsella/concourse-fly-resource
     tag: 'latest'
 
-resources:
-- name: fly
-  type: fly
-  source:
-    url: http://54.209.196.185:8080/
-    team: main
-
 inputs:
    - name: pipeline-config
    
