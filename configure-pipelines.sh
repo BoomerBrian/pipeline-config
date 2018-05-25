@@ -2,6 +2,10 @@
 
 set -e -x
 
+wget https://github.com/concourse/concourse/releases/download/v3.13.0/concourse_linux_amd64
+
+wget https://github.com/concourse/concourse/releases/download/v3.13.0/fly_linux_amd64
+
 for file in pipeline-config/*; do
-    fly -t concourse -p $(basename "$file") -c file
+    ./fly_linux_amd64 -t concourse -p $(basename "$file") -c file
 done
