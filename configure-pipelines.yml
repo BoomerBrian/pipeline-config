@@ -1,0 +1,22 @@
+---
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: opetroykinsella/concourse-fly-resource
+    tag: 'latest'
+
+resources:
+- name: fly
+  type: fly
+  source:
+    url: http://54.209.196.185:8080/
+    team: main
+
+inputs:
+   - name: pipeline-config
+   
+run:
+  path: sh
+  args: ["configure-pipelines.sh"]
